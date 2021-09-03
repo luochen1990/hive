@@ -342,6 +342,7 @@ public class HiveStatement implements java.sql.Statement {
 
     while (statusResp == null || !statusResp.isSetHasResultSet()) {
       try {
+        Thread.sleep(10);
         statusResp = client.GetOperationStatus(statusReq);
       } catch (TException e) {
         isLogBeingGenerated = false;
@@ -376,6 +377,7 @@ public class HiveStatement implements java.sql.Statement {
          * For an async SQLOperation, GetOperationStatus will use the long polling approach It will
          * essentially return after the HIVE_SERVER2_LONG_POLLING_TIMEOUT (a server config) expires
          */
+        Thread.sleep(10);
         statusResp = client.GetOperationStatus(statusReq);
         LOG.debug("Status response: {}", statusResp);
         if (!isOperationComplete && inPlaceUpdateStream.isPresent()) {
